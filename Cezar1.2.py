@@ -41,7 +41,6 @@ def cezar_doua_chei(text, k1, k2, operatie="c"):
         return None
 
     # pozitiile literelor din cheia 2:
-    # A=0, B=1, C=2 ... Z=25
     key2_shifts = [
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ".index(ch.upper())
         for ch in k2
@@ -73,13 +72,13 @@ def cezar_doua_chei(text, k1, k2, operatie="c"):
         rezultat.append(litere[noua_poz])
 
     return "".join(rezultat)
-# Alegerea tipului de criptare
+# operatiunea
 msg = input("Introduce mesajul: ")
 operatie = input("Alege operatia (c=criptare / d=decriptare): ").strip().lower()
 tip = input("Cu o cheie sau doua? (1/2): ").strip()
 
 if tip == "1":
-    k = int(input("Introduce prima cheie (1-30: "))
+    k = int(input("Introduce prima cheie (1-30): "))
     output = cezar(msg, k, operatie)
 elif tip == "2":
     k1 = int(input("Introduce prima cheie (1-30): "))
