@@ -28,41 +28,51 @@ def cezar(text, k, operatie="c"):
 def cezar_doua_chei(text, k1, k2, operatie="c"):
     litere, codificare = alfabet_roman()
 
-    # verificări pentru chei
-    if not (1 <= k1 <= len(litere)):
-        print(f"Cheia 1 trebuie să fie între 1 și {len(litere)} inclusiv.")
-        return None
-    if any(ch.upper() not in codificare for ch in k2):
-        print("Cheia 2 trebuie să conțină doar litere din alfabetul românesc.")
-        return None
-    if len(k2) < 7:
-        print("Cheia 2 trebuie să aibă lungimea de cel puțin 7 caractere.")
+    if not (1 <= k1 <= 30):
+        print("Cheia 1 trebuie sa fie intre 1 si 30 inclusiv.")
         return None
 
-    # obținerea pozițiilor pentru cheia 2 pe baza alfabetului românesc
-    key2_shifts = [codificare[ch.upper()] for ch in k2]
+    if any(ch.upper() not in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" for ch in k2):
+        print("Cheia 2 trebuie sa contina doar litere din alfabetul latin.")
+        return None
+
+    if len(k2) < 7:
+        print("Cheia 2 trebuie sa aiba lungimea de cel putin 7 caractere.")
+        return None
+
+    # pozitiile literelor din cheia 2:
+    # A=0, B=1, C=2 ... Z=25
+    key2_shifts = [
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ".index(ch.upper())
+        for ch in k2
+    ]
 
     rezultat = []
     text = text.replace(" ", "").upper()
 
     for i, ch in enumerate(text):
         if ch not in codificare:
-            print("Textul trebuie să conțină doar litere din alfabetul românesc.")
+            print("Textul trebuie sa contina doar litere din alfabetul romanesc.")
             return None
+
         poz = codificare[ch]
+
         shift1 = k1
         shift2 = key2_shifts[i % len(key2_shifts)]
+
         if operatie == "c":
-            noua_poz = (poz + shift1 + shift2) % len(litere)
+            noua_poz = (poz + shift1 - shift2) % len(litere)
+
         elif operatie == "d":
-            noua_poz = (poz - (shift1 + shift2)) % len(litere)
+            noua_poz = (poz - shift1 + shift2) % len(litere)
+
         else:
             print("Alege 'c' sau 'd'.")
             return None
+
         rezultat.append(litere[noua_poz])
+
     return "".join(rezultat)
-
-
 # Alegerea tipului de criptare
 msg = input("Introduce mesajul: ")
 operatie = input("Alege operatia (c=criptare / d=decriptare): ").strip().lower()
